@@ -13,7 +13,15 @@ export const execute = (
       body: JSON.stringify({ [type]: query, variables: vars }),
     })
       .then((data) => data.json())
-      .then((data) => data['data'])
+      .then((data) => {
+        console.log(data.data.pokemons.results)
+        const result = data.data.pokemons.results;
+        if (result && Array.isArray(result)) {
+          return result;
+        } else {
+          throw new Error('Invalid response format');
+        }
+      })
       .catch(throwError)
   );
 };

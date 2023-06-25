@@ -14,12 +14,16 @@ import {AppComponent} from "./app.component";
 import {PokemonList} from "./pokemon-cards/pokemon-list";
 import {PokemonSignle} from "./pokemon-cards/pokemon-single/pokemon-single.component";
 import {DataService} from "./data.service";
-
+import {reducers} from "./index";
+import {StoreModule} from "@ngrx/store";
+import {PokemonEffects} from "./pokemon.effects";
+import {EffectsModule} from "@ngrx/effects";
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, LazyLoadImageModule, MatSlideToggleModule, BrowserAnimationsModule, DragDropModule, MatInputModule, MatSelectModule, MatButtonModule, MatProgressSpinnerModule, MatPaginatorModule],
+  imports: [BrowserModule, FormsModule, LazyLoadImageModule, MatSlideToggleModule, BrowserAnimationsModule, DragDropModule, MatInputModule, MatSelectModule, MatButtonModule, MatProgressSpinnerModule, MatPaginatorModule,  StoreModule.forRoot(reducers), EffectsModule.forRoot([PokemonEffects]), StoreDevtoolsModule.instrument(),],
   declarations: [ AppComponent, PokemonList,PokemonSignle],
   bootstrap: [ AppComponent ],
-  providers: [DataService]
+  providers: [DataService, PokemonEffects]
 })
 export class AppModule { }

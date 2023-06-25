@@ -1,9 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { DataService } from './data.service';
 import { first, tap } from 'rxjs/operators';
 import {Pokemon} from "./helper/types";
 import {PageEvent} from "@angular/material/paginator";
 import { ImagePreloadService } from './image-preload.service';
+import {AppState} from "./index";
+import {select, Store} from "@ngrx/store";
+import {selectPokemons} from "./selectors";
+import {loadPokemons} from "./pokemon.action";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -11,44 +16,33 @@ import { ImagePreloadService } from './image-preload.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnChanges {
   limit = 14;
   offset = 0;
-  offsetPreload = 1; // i.e. `offsetPreload = 3;` will load next `3` extra pages
+  offsetPreload = 1;
   pokemons!: Pokemon[];
   currentPage: number = 0
   chosenPokemonMoves: any
   totalItems!: number;
-  constructor(private dataService: DataService, private ImagePreloadService: ImagePreloadService) {
-    //
-  }
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.totalItems = 1000;
-    this.loadPokemons();
-  }
-
-  loadPokemons() {
-    this.dataService
-      .getPokemons(this.limit, this.offset)
-      .pipe(first())
-      .subscribe((result) => {
-        this.pokemons = result.pokemons.results;
+    this.store.dispatch(loadPokemons({ limit: this.limit, offset: this.offset }));
+    this.store.pipe(select(selectPokemons)).subscribe((pokemons) => {
+        this.pokemons = pokemons
       });
 
-    this.dataService
-      .getPokemonsArtwork(this.limit, ((this.offsetPreload * this.limit) + this.offset))
-      .pipe(
-        first(),
-        tap(imageUrls => this.ImagePreloadService.preloadImages(imageUrls)),
-      )
-      .subscribe(/* unsubscribed by `first()` */);
+
   }
+ngOnChanges(changes: SimpleChanges) {
+    console.log(changes)
+}
 
   onPageChange(event: PageEvent) {
     this.offset = event.pageIndex * event.pageSize;
     this.limit = event.pageSize;
-    this.loadPokemons();
+    this.store.dispatch(loadPokemons({ limit: this.limit, offset: this.offset }));
     this.chosenPokemonMoves = '';
     this.currentPage = event.pageIndex + 1;
   }
