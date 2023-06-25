@@ -17,7 +17,7 @@ export const pokemonReducer = createReducer(
     ...state,
     pokemons: [...state.pokemons, ...pokemons],
   })),
-  on(PokemonActions.loadPokemonsFailure, (state, { error }) => ({
+  on(PokemonActions.loadPokemonsFail, (state, { error }) => ({
     ...state,
     error,
   }))

@@ -1,13 +1,13 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { DataService } from './data.service';
+import { DataService } from './services/data.service';
 import { first, tap } from 'rxjs/operators';
 import {Pokemon} from "./helper/types";
 import {PageEvent} from "@angular/material/paginator";
-import { ImagePreloadService } from './image-preload.service';
-import {AppState} from "./index";
+import { ImagePreloadService } from './services/image-preload.service';
+import {AppState} from "./store";
 import {select, Store} from "@ngrx/store";
-import {selectPokemons} from "./selectors";
-import {loadPokemons} from "./pokemon.action";
+import {selectPokemons} from "./store/selectors";
+import {loadPokemons} from "./store/pokemon.action";
 import {Observable} from "rxjs";
 
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { GET_POKEMONS, GET_POKEMONS_ARTWORK, GET_POKEMONS_DETAILS } from '../graph-ql/graph-query';
-import {execute, executeMoves} from "../graph-ql/graph-helper";
+import { GET_POKEMONS, GET_POKEMONS_ARTWORK, GET_POKEMONS_DETAILS } from '../../graph-ql/graph-query';
+import {execute, executeMoves} from "../../graph-ql/graph-helper";
 
 @Injectable()
 export class DataService {

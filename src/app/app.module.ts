@@ -13,10 +13,10 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {AppComponent} from "./app.component";
 import {PokemonList} from "./pokemon-cards/pokemon-list";
 import {PokemonSignle} from "./pokemon-cards/pokemon-single/pokemon-single.component";
-import {DataService} from "./data.service";
-import {reducers} from "./index";
+import {DataService} from "./services/data.service";
+import {reducers} from "./store";
 import {StoreModule} from "@ngrx/store";
-import {PokemonEffects} from "./pokemon.effects";
+import {PokemonEffects} from "./store/pokemon.effects";
 import {EffectsModule} from "@ngrx/effects";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 
