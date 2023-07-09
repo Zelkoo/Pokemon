@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import {catchError, map, mergeMap, tap} from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { DataService } from '../services/data.service';
 import * as PokemonActions from './pokemon.action';
-import {Pokemon} from "../helper/types";
+import {Pokemon, PokemonDetails} from "../interfaces/interfaces";
 
 @Injectable()
 export class PokemonEffects {
@@ -14,12 +14,26 @@ export class PokemonEffects {
       mergeMap(({ limit, offset }) =>
         this.dataService.getPokemons(limit, offset).pipe(
           map((pokemons: Pokemon[]) => {
-            console.log(pokemons)
               return PokemonActions.loadPokemonsSuccess({pokemons})
             }
           ),
           catchError((error) =>
             of(PokemonActions.loadPokemonsFail({ error }))
+          )
+        )
+      )
+    )
+  );
+  loadPokemonDetails$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PokemonActions.loadPokemonDetails),
+      mergeMap(({ pokemonName }) =>
+        this.dataService.readDetails(pokemonName).pipe(
+          map((pokemonDetails: PokemonDetails) =>
+            PokemonActions.loadPokemonDetailsSuccess({ pokemonDetails })
+          ),
+          catchError((error) =>
+            of(PokemonActions.loadPokemonDetailsFail({ error }))
           )
         )
       )
