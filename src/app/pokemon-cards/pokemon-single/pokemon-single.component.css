@@ -7,29 +7,35 @@
   position: relative;
   justify-content: center;
 }
+
 .grass-button{
   color: green
 }
+
 .water-button {
   color: blue
 }
+
 .fire-button {
   color: red
-
 }
+
 .bug-button {
   color: brown
-
 }
+
 .flying-button {
   color: mediumpurple;
 }
+
 .electric-button {
   color: rgba(169, 138, 44, 0.67);
 }
+
 .poison-button{
   color: darkmagenta;
 }
+
 button{
   font-size: 30px;
 }
